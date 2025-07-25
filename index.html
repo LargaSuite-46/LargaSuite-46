@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Larga Suite 46 - Tu apartamento en Jerez</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Hero sin overlay oscuro */
+    #hero {
+      background-image: url('images/hero1.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 90vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #1e293b; /* texto oscuro para contraste */
+      text-align: center;
+      padding: 0 1rem;
+      position: relative;
+    }
+
+    /* Botones estilos */
+    .btn-primary {
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+      color: white;
+      font-weight: 700;
+      padding: 1rem 2.5rem;
+      border-radius: 9999px;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.5);
+      transition: all 0.3s ease;
+      display: inline-block;
+      text-decoration: none;
+      user-select: none;
+      cursor: pointer;
+    }
+    .btn-primary:hover, .btn-primary:focus {
+      background: linear-gradient(90deg, #d97706, #b45309);
+      box-shadow: 0 6px 25px rgba(212, 119, 6, 0.8);
+      transform: translateY(-3px);
+      outline: none;
+    }
+
+    .btn-secondary {
+      background: #1e40af;
+      color: white;
+      font-weight: 600;
+      padding: 0.8rem 2rem;
+      border-radius: 9999px;
+      box-shadow: 0 3px 10px rgba(30, 64, 175, 0.5);
+      transition: all 0.3s ease;
+      margin-left: 1rem;
+      user-select: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-secondary:hover, .btn-secondary:focus {
+      background: #1e3a8a;
+      box-shadow: 0 5px 18px rgba(30, 58, 138, 0.8);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    /* Selector idioma */
+    #language-selector {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: white;
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      user-select: none;
+      border: none;
+      appearance: none;
+    }
+
+    /* Galería imagenes pequeñas */
+    .gallery-img {
+      border-radius: 0.75rem;
+      object-fit: cover;
+      height: 280px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      width: 100%;
+    }
+    .gallery-img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      z-index: 10;
+      position: relative;
+    }
+
+    /* Modal fotos tamaño completo */
+    #modal {
+      background: rgba(0,0,0,0.9);
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    #modal.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    #modal img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 30px rgba(255,255,255,0.5);
+    }
+    #modal .close-btn {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 2.5rem;
+      color: white;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+    #modal .close-btn:hover {
+      color: #f59e0b;
+    }
+
+    #modal .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 3rem;
+      color: white;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      padding: 0 1rem;
+      transition: color 0.3s ease;
+    }
+    #modal .nav-btn:hover {
+      color: #f59e0b;
+    }
+    #modal .prev-btn {
+      left: 1rem;
+    }
+    #modal .next-btn {
+      right: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+  <!-- Hero -->
+  <section id="hero" role="banner" aria-label="Imagen principal de Larga Suite 46">
+    <select id="language-selector" aria-label="Selector de idioma">
+      <option value="es" selected>ES</option>
+      <option value="en">EN</option>
+    </select>
+    <div>
+      <h1 class="text-6xl md:text-7xl font-extrabold mb-6 leading-tight" id="hero-title">Larga Suite 46</h1>
+      <p class="text-xl md:text-2xl font-light mb-8 max-w-xl mx-auto" id="hero-subtitle">Tu apartamento exclusivo en el corazón de Jerez de la Frontera</p>
+      <a href="https://olesolutions.es/alquiler/apartamento-jerez-de-la-frontera-larga-suite-46-562446.html" target="_blank" rel="noopener noreferrer" class="btn-primary mr-4" id="btn-reserve">
+        Reserva Ahora
+      </a>
+      <a href="https://es.wikipedia.org/wiki/Calle_Larga_(Jerez_de_la_Frontera)" target="_blank" rel="noopener noreferrer" class="btn-secondary" id="btn-history">
+        Historia de la Calle Larga
+      </a>
+      <a href="https://www.jerez.es/eventos" target="_blank" rel="noopener noreferrer" class="btn-secondary ml-4" id="btn-events">
+        Eventos en Jerez
+      </a>
+    </div>
+  </section>
+
+  <!-- Descripción -->
+  <section class="max-w-4xl mx-auto my-12 px-4" aria-labelledby="descripcion-title">
+  <h2 id="descripcion-title" class="text-3xl font-bold mb-6 text-center text-gray-900">Descripción del Apartamento</h2>
+  <ul class="list-disc list-inside space-y-3 text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto" id="desc-list">
+    <li>Un dormitorio con cama de matrimonio para máximo confort.</li>
+    <li>Dispone además de un sofá cama de matrimonio.</li>
+    <li>Cocina independiente equipada con horno, vitrocerámica, nevera, congelador, microondas, cafetera, tostador y hervidor.</li>
+    <li>Cuarto de baño completo con bañera, secador de pelo, gel de baño y champú incluidos.</li>
+    <li>Aire acondicionado y bomba de calor para tu comodidad durante todo el año.</li>
+    <li>Televisor moderno y Wi‑Fi gratuito de alta velocidad.</li>
+    <li>Gran terraza privada/solarium con vistas a la histórica Calle Larga.</li>
+  </ul>
+  </section>
+
+  <!-- Servicios -->
+  <section class="max-w-4xl mx-auto mb-16 px-4" aria-labelledby="servicios-title">
+    <h2 id="servicios-title" class="text-3xl font-bold mb-6 text-center text-gray-900">Servicios Destacados</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center text-gray-700 max-w-3xl mx-auto" id="services-grid">
+      <div>
+        <h3 class="font-semibold text-xl mb-2">Wi‑Fi Gratis</h3>
+        <p>Conexión rápida y estable para trabajar o relajarte.</p>
+      </div>
+      <div>
+        <h3 class="font-semibold text-xl mb-2">Cocina Completa</h3>
+        <p>Todo lo necesario para preparar tus comidas favoritas.</p>
+      </div>
+      <div>
+        <h3 class="font-semibold text-xl mb-2">Ubicación Perfecta</h3>
+        <p>A pocos pasos de bodegas, tabancos y monumentos históricos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galería -->
+  <section class="max-w-5xl mx-auto mb-20 px-4" aria-labelledby="galeria-title">
+    <h2 id="galeria-title" class="text-3xl font-bold mb-6 text-center text-gray-900">Galería</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-6">
+      <img src="images/gal1.jpg" alt="Imagen 1 del apartamento" class="gallery-img" data-index="0" />
+      <img src="images/gal2.jpg" alt="Imagen 2 del apartamento" class="gallery-img" data-index="1" />
+      <img src="images/gal3.jpg" alt="Imagen 3 del apartamento" class="gallery-img" data-index="2" />
+      <img src="images/gal4.jpg" alt="Imagen 4 del apartamento" class="gallery-img" data-index="3" />
+      <img src="images/gal5.jpg" alt="Imagen 5 del apartamento" class="gallery-img" data-index="4" />
+      <img src="images/gal6.jpg" alt="Imagen 6 del apartamento" class="gallery-img" data-index="5" />
+    </div>
+    <div class="text-center">
+      <button id="btn-ver-mas" class="btn-primary" aria-label="Ver más fotos">Ver más fotos</button>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div id="modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="modal-img-desc" tabindex="-1">
+    <button class="close-btn" id="modal-close" aria-label="Cerrar imagen">&times;</button>
+    <button class="nav-btn prev-btn" id="prev-btn" aria-label="Foto anterior">&#8592;</button>
+    <img src="" alt="" id="modal-img" />
+    <button class="nav-btn next-btn" id="next-btn" aria-label="Foto siguiente">&#8594;</button>
+  </div>
+
+  <script>
+    const translations = {
+      es: {
+        heroTitle: "Larga Suite 46",
+        heroSubtitle: "Tu apartamento exclusivo en el corazón de Jerez de la Frontera",
+        btnReserve: "Reserva Ahora",
+        btnHistory: "Historia de la Calle Larga",
+        btnEvents: "Eventos en Jerez",
+        descTitle: "Descripción del Apartamento",
+        descList: [
+          "Un dormitorio con cama de matrimonio para máximo confort.",
+          "Dispone además de un sofá cama de matrimonio.",
+          "Cocina independiente equipada con horno, vitrocerámica, nevera, congelador, microondas, cafetera, tostador y hervidor.",
+          "Cuarto de baño completo con bañera, secador de pelo, gel de baño y champú incluidos.",
+          "Aire acondicionado y bomba de calor para tu comodidad durante todo el año.",
+          "Televisor moderno y Wi‑Fi gratuito de alta velocidad.",
+          "Gran terraza privada/solarium con vistas a la histórica Calle Larga."
+        ],
+        servicesTitle: "Servicios Destacados",
+        services: [
+          { title: "Wi‑Fi Gratis", text: "Conexión rápida y estable para trabajar o relajarte." },
+          { title: "Cocina Completa", text: "Todo lo necesario para preparar tus comidas favoritas." },
+          { title: "Ubicación Perfecta", text: "A pocos pasos de bodegas, tabancos y monumentos históricos." }
+        ],
+        galleryTitle: "Galería",
+        btnViewMore: "Ver más fotos"
+      },
+      en: {
+        heroTitle: "Larga Suite 46",
+        heroSubtitle: "Your exclusive apartment in the heart of Jerez de la Frontera",
+        btnReserve: "Book Now",
+        btnHistory: "History of Calle Larga",
+        btnEvents: "Events in Jerez",
+        descTitle: "Apartment Description",
+        descList: [
+          "Spacious bedroom with double bed and premium mattress for the best rest.",
+          "Cozy double sofa bed: perfect for families or groups.",
+          "Fully equipped independent kitchen: oven, ceramic hob, fridge, freezer, microwave, coffee machine, toaster and kettle.",
+          "Modern bathroom with bathtub, hairdryer, included toiletries and shampoo.",
+          "Air conditioning and heat pump for your comfort all year round.",
+          "Modern TV and free high-speed Wi-Fi.",
+          "Large private terrace/solarium with views of historic Calle Larga."
+        ],
+        servicesTitle: "Featured Services",
+        services: [
+          { title: "Free Wi‑Fi", text: "Fast and stable connection for work or relaxation." },
+          { title: "Complete Kitchen", text: "Everything you need to prepare your favorite meals." },
+          { title: "Perfect Location", text: "Just steps away from wineries, taverns and historic monuments." }
+        ],
+        galleryTitle: "Gallery",
+        btnViewMore: "View more photos"
+      }
+    };
+
+    // Cambiar idioma
+    const languageSelector = document.getElementById('language-selector');
+
+    function updateText(lang) {
+      document.getElementById('hero-title').textContent = translations[lang].heroTitle;
+      document.getElementById('hero-subtitle').textContent = translations[lang].heroSubtitle;
+      document.getElementById('btn-reserve').textContent = translations[lang].btnReserve;
+      document.getElementById('btn-history').textContent = translations[lang].btnHistory;
+      document.getElementById('btn-events').textContent = translations[lang].btnEvents;
+      document.getElementById('descripcion-title').textContent = translations[lang].descTitle;
+
+      const descList = document.getElementById('desc-list');
+      descList.innerHTML = '';
+      translations[lang].descList.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        descList.appendChild(li);
+      });
+
+      document.getElementById('servicios-title').textContent = translations[lang].servicesTitle;
+      const servicesGrid = document.getElementById('services-grid');
+      servicesGrid.innerHTML = '';
+      translations[lang].services.forEach(service => {
+        const div = document.createElement('div');
+        div.innerHTML = `<h3 class="font-semibold text-xl mb-2">${service.title}</h3><p>${service.text}</p>`;
+        servicesGrid.appendChild(div);
+      });
+
+      document.getElementById('galeria-title').textContent = translations[lang].galleryTitle;
+      document.getElementById('btn-ver-mas').textContent = translations[lang].btnViewMore;
+    }
+
+    languageSelector.addEventListener('change', e => {
+      updateText(e.target.value);
+    });
+
+    // Inicializa en el idioma seleccionado por defecto
+    updateText(languageSelector.value);
+
+    // Galería + Modal
+    const galleryImgs = document.querySelectorAll('.gallery-img');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+    const btnClose = document.getElementById('modal-close');
+    const btnPrev = document.getElementById('prev-btn');
+    const btnNext = document.getElementById('next-btn');
+    const btnVerMas = document.getElementById('btn-ver-mas');
+
+    const images = [
+      'images/gal1.jpg',
+      'images/gal2.jpg',
+      'images/gal3.jpg',
+      'images/gal4.jpg',
+      'images/gal5.jpg',
+      'images/gal6.jpg',
+      'images/gal7.jpg',
+      'images/gal8.jpg',
+      'images/gal9.jpg',
+      'images/gal10.jpg',    
+      'images/gal11.jpg',
+      'images/gal12.jpg',
+      'images/gal13.jpg',
+      'images/gal14.jpg',
+      'images/gal15.jpg',
+      'images/gal16.jpg',
+      'images/gal17.jpg',
+      'images/gal18.jpg',
+      'images/gal19.jpg',
+      'images/gal20.jpg',
+      'images/gal21.jpg',
+      'images/gal22.jpg',
+      'images/gal23.jpg',
+      'images/gal24.jpg',
+      'images/gal25.jpg',
+      'images/gal26.jpg',
+      'images/gal27.jpg',
+      'images/gal28.jpg',
+      'images/gal29.jpg'
+    ];
+
+    let currentIndex = 0;
+
+    function openModal(index) {
+      currentIndex = index;
+      modalImg.src = images[currentIndex];
+      modal.classList.add('active');
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden'; // bloquear scroll
+      modal.focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      modalImg.src = images[currentIndex];
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % images.length;
+      modalImg.src = images[currentIndex];
+    }
+
+    galleryImgs.forEach(img => {
+      img.addEventListener('click', () => {
+        openModal(parseInt(img.dataset.index));
+      });
+    });
+
+    btnClose.addEventListener('click', closeModal);
+    btnPrev.addEventListener('click', showPrev);
+    btnNext.addEventListener('click', showNext);
+
+    btnVerMas.addEventListener('click', () => {
+      openModal(0);
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (modal.classList.contains('active')) {
+        if (e.key === 'Escape') {
+          closeModal();
+        } else if (e.key === 'ArrowLeft') {
+          showPrev();
+        } else if (e.key === 'ArrowRight') {
+          showNext();
+        }
+      }
+    });
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
+
+
